@@ -1,61 +1,74 @@
 package shopmanagement;
 
+import java.util.HashMap;
+
 import java.util.ArrayList;
 
-public class Customer {
-	private String customerId;
-	private String customerName;
-	private String contactNumber;
-	private ArrayList<Product> purchasedProducts;
+public class Shop {
+	private HashMap<String, Product> products;
+	private HashMap<String, Customer> customers;
 
-	public Customer(String customerId, String customerName, String contactNumber) {
-		this.customerId = customerId;
-		this.customerName = customerName;
-		this.contactNumber = contactNumber;
-		this.purchasedProducts = new ArrayList<>();
-	}
+	
+	public Shop() {
+		this.products = new HashMap<>();
+		this.customers = new HashMap<>();
 
-	public String getCustomerId() {
-		return customerId;
-	}
-
-	public String getCustomerName() {
-		return customerName;
-	}
-
-	public String getContactNumber() {
-		return contactNumber;
-	}
-
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
-
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
-
-	public void setContactNumber(String contactNumber) {
-		this.contactNumber = contactNumber;
 	}
 
 	
 	public void addProduct(Product product) {
-		purchasedProducts.add(product);
+		products.put(product.getProductId(), product);
+
 	}
 
-	public void removeProduct(Product product) {
-		purchasedProducts.remove(product);
+	public void removeProduct(String productId) {
+		products.remove(productId);
 	}
 
-	public ArrayList<Product> displayProducts() {
-		return purchasedProducts;
+	
+	public void addCustomer(Customer customer) {
+		customers.put(customer.getCustomerId(), customer);
+
 	}
 
-	@Override
-	public String toString() {
-		return "Customer [customerId=" + customerId + ", customerName=" + customerName + ", contactNumber="
-				+ contactNumber + ", purchasedProducts=" + purchasedProducts + "]";
+	public void removeCustomer(String customerId) {
+		customers.remove(customerId);
+	}
+
+	
+	public Product searchProductByName(String productName) {
+		return products.get(productName);
+	}
+
+	public ArrayList<Product> searchProductByPriceRange(double minPrice, double maxPrice) {
+		ArrayList<Product> productsInRange = new ArrayList<>();
+		for (Product product : products.values()) {
+			if (product.getPrice() >= minPrice && product.getPrice() <= maxPrice) {
+				productsInRange.add(product);
+			}
+		}
+		return productsInRange;
+	}
+
+	
+	public void displayAllProducts() {
+		if (products.isEmpty()) {
+			System.out.println("No products available.");
+		} else {
+			for (Product product : products.values()) {
+				System.out.println(product);
+			}
+		}
+	}
+
+	public void displayAllCustomers() {
+		if (customers.isEmpty()) {
+			System.out.println("No customers available.");
+		} else {
+			for (Customer customer : customers.values()) {
+				System.out.println(customer);
+			}
+		}
 	}
 
 }
